@@ -40,7 +40,11 @@ jobs:
               run: |
                 COMMENT_ID=$(gh api -X POST \
                   /repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/comments \
-                  -f body="Comment with API.\n Thank you!" \
+                  -f body="$(cat <<EOF
+                Comment with API.
+                Thank you!
+                EOF
+                )" \
                   -q '.id')
                 echo "comment_id=$COMMENT_ID" >> $GITHUB_ENV
               env:
