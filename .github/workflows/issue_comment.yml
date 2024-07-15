@@ -36,13 +36,23 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Create comment with API
+              id: create_comment
               run: |
-                gh api -X POST \
-                    /repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/comments \          
-                    -f body="Comment with API.\n Thank you!" 
-
+                COMMENT_ID=$(gh api -X POST \
+                  /repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/comments \
+                  -f body="Comment with API.\n Thank you!" \
+                  -q '.id')
+                echo "comment_id=$COMMENT_ID" >> $GITHUB_ENV
               env:
                 GITHUB_TOKEN: ${{ secrets.REPO_SECRET }}
                 REPOSITORY: ${{ github.event.repository.name }}
                 ISSUE_NUMBER: ${{ github.event.issue.number }}
 
+            - name: Add reaction to comment
+              run: |
+                gh api -X POST \
+                  /repos/${{ github.repository }}/issues/comments/${{ env.comment_id }}/reactions \
+                  -f content="+1"
+              env:
+                GITHUB_TOKEN: ${{ secrets.REPO_SECRET }}
+                COMMENT_ID: ${{ env.comment_id }}
