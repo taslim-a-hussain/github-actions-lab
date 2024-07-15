@@ -20,7 +20,14 @@ jobs:
                   token: ${{ secrets.REPO_SECRET }}
                   issue-number: ${{ github.event.issue.number }}
                   body: |
-                      Created by [github-actions-lab](https://github.com/taslim-a-hussain/github-actions-lab)
-                      - Thank you for creating this issue!
+                      Thank you for creating this issue!
+                      
+                      I'll get back to you as soon as I can.
 
-                      reactions: '+1'
+                      Have a great day!
+
+                      --
+
+                      *This comment was created automatically.*
+                    
+                  reactions: '+1'
