@@ -31,3 +31,18 @@ jobs:
                       *This comment was created automatically.*
                     
                   reactions: '+1'
+
+    comment-with-api:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Create comment with API
+              run: |
+                gh api -X POST \
+                    /repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/comments \          
+                    -f body="Comment with API.\n Thank you!" 
+
+              env:
+                GITHUB_TOKEN: ${{ secrets.REPO_SECRET }}
+                REPOSITORY: ${{ github.event.repository.name }}
+                ISSUE_NUMBER: ${{ github.event.issue.number }}
+
