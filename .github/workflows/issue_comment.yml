@@ -4,18 +4,12 @@ on:
     issues:
         types:
             - opened
+            - reopened
 
 jobs:
     comment:
         runs-on: ubuntu-latest
         steps:
-            - name: Comment on Issue
-              uses: actions/github-script@v6
-              with:
-                script: |
-                  github.rest.issues.createComment({
-                    issue_number: context.issue.number,
-                    owner: context.repo.owner,
-                    repo: context.repo.repo,
-                    body: 'Thanks for opening this issue!'    
-                  })
+            - name: Dump GitHub context
+              run: echo '${{ toJSON(github.event) }}' | jq
+              shell: bash
