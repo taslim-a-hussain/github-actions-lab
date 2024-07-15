@@ -10,6 +10,17 @@ jobs:
     comment:
         runs-on: ubuntu-latest
         steps:
-            - name: Dump GitHub context
-              run: echo '${{ toJSON(github.event) }}' | jq
-              shell: bash
+            # - name: Dump GitHub context
+            #   run: echo '${{ toJSON(github.event) }}' | jq
+            #   shell: bash
+            
+            - name: Create comment
+              uses: peter-evans/create-or-update-comment@v4
+              with:
+                  issue-number: ${{ github.event.issue.number }}
+                  body: |
+                      Created by [github-actions-lab](https://github.com/taslim-a-hussain/github-actions-lab)
+                      - Thank you for creating this issue!
+
+                      [${{github.event.issue.number}}]: https://github.com/taslim-a-hussain/github-actions-lab/issues/${{github.event.issue.number}}
+                      reactions: '+1'
